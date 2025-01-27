@@ -6,6 +6,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import io
 import base64
+import pickle
 
 
 app = FastAPI()
@@ -20,10 +21,11 @@ async def read_root(request: Request):
     """
     return templates.TemplateResponse("main.html", {"request": request})
 
+
 @app.post("/cluster", response_class=HTMLResponse)
 async def cluster(request: Request, clusters: int = Form(...), file: UploadFile = None):
     """
-    Perform K-Means clustering and display results.
+    Perform clustering using a pre-trained K-Means model.
     """
     if file is not None:
         content = await file.read()
@@ -36,9 +38,12 @@ async def cluster(request: Request, clusters: int = Form(...), file: UploadFile 
         # Extract relevant features
         X = data[["Annual Income (k$)", "Spending Score (1-100)"]]
 
-        # Perform K-Means clustering
-        kmeans = KMeans(n_clusters=clusters, random_state=0).fit(X)
-        labels = kmeans.labels_
+        # Load the pre-trained model
+        with open("k_means.pkl", "rb") as f:
+            kmeans = pickle.load(f)
+
+        # Perform clustering
+        labels = kmeans.predict(X)
 
         # Create cluster visualization
         plt.figure(figsize=(8, 6))
