@@ -44,8 +44,7 @@ https://mall-locating-app.onrender.com
 **If you found it useful, leave a ⭐ here!**
 
 ```bash
-Author: DataScientist00
-Data Scientist
-Email: nikzmishra@gmail.com
+Author: karan Agrawal
+Email:karanagrawal2002@gmail.com@gmail.com
 
 ```
